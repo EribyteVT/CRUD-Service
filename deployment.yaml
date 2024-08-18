@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: crud_service
+  name: crud-service
 spec:
   replicas: 0
   template:
