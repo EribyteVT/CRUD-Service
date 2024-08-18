@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: crud-service
 spec:
-  replicas: 0
+  replicas: 1
   template:
     metadata:
       labels:
