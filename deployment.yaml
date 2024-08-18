@@ -7,7 +7,7 @@ spec:
   template:
     metadata:
       labels:
-        app: ab
+        app: crud-service
     spec:
       containers:
         - name: crud-service
@@ -50,4 +50,4 @@ spec:
                   key: security.delete.code
   selector:
     matchLabels:
-      app: ab
+      app: crud-service
