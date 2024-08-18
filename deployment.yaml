@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
         - name: crud-service
-          image: eribyte/crud_service
+          image: eribyteofficial/crud-service
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
