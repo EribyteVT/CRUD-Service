@@ -7,6 +7,7 @@ spec:
   loadBalancerIP: 10.244.0.43
   selector:
     app: crud-service
+  externalIPs: 10.111.131.62
   ports:
     - targetPort: 46468
       port: 46468
