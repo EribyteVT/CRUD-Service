@@ -38,11 +38,16 @@ spec:
                 configMapKeyRef:
                   name: crud-config
                   key: spring.datasource.driver-class-name
-            - name: The source code of
+            - name: spring.datasource.password
               valueFrom:
                 secretKeyRef:
-                  name: mysqlpwd
-                  key: password
+                  name: crud-secrets
+                  key: spring.datasource.password
+            - name: security.delete.code
+              valueFrom:
+                secretKeyRef:
+                  name: crud-secrets
+                  key: security.delete.code
   selector:
     matchLabels:
       app: ab
