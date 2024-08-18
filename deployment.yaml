@@ -10,7 +10,7 @@ spec:
         app: ab
     spec:
       containers:
-        - name: crud_service
+        - name: crud-service
           image: eribyte/crud_service
           imagePullPolicy: Always
           ports:
