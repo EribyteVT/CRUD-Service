@@ -33,11 +33,11 @@ spec:
                 configMapKeyRef:
                   name: crud-config
                   key: spring.jpa.database-platform
-            - name: spring.datasource.driver-class-name
+            - name: spring.datasource.username
               valueFrom:
                 configMapKeyRef:
                   name: crud-config
-                  key: spring.datasource.driver-class-name
+                  key: spring.datasource.username
             - name: spring.datasource.password
               valueFrom:
                 secretKeyRef:
