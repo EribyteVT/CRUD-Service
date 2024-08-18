@@ -1,5 +1,5 @@
 # Use an official Maven image as the base image
-FROM maven:amazoncorretto-17 AS build
+FROM maven AS build
 # Set the working directory in the container
 WORKDIR /app
 # Copy the pom.xml and the project files to the container
