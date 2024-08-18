@@ -6,8 +6,6 @@ spec:
   type: ClusterIP
   selector:
     app: crud-service
-    name: crud-service
-    type: back-end-api
   ports:
     - targetPort: 46468
       port: 46468
