@@ -6,9 +6,8 @@ spec:
   type: ClusterIP
   selector:
     app: crud-service
+    name: crud-service
+    type: back-end-api
   ports:
-    - targetPort: 80
-      port: 80
-      selector:
-        name: crud-service
-        type: back-end-api
+    - targetPort: 80087
+      port: 80087
