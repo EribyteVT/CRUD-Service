@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crud_service
+spec:
+  replicas: 0
+  template:
+    metadata:
+      labels:
+        app: ab
+    spec:
+      containers:
+        - name: crud_service
+          image: eribyte/crud_service
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: ALLOW_EMPTY_PASSWORD
+              value: "yes"
+            - name: spring.datasource.driver-class-name
+              valueFrom:
+                configMapKeyRef:
+                  name: crud-config
+                  key: spring.datasource.driver-class-name
+            - name: spring.datasource.url
+              valueFrom:
+                configMapKeyRef:
+                  name: crud-config
+                  key: spring.datasource.url
+            - name: spring.jpa.database-platform
+              valueFrom:
+                configMapKeyRef:
+                  name: crud-config
+                  key: spring.jpa.database-platform
+            - name: spring.datasource.driver-class-name
+              valueFrom:
+                configMapKeyRef:
+                  name: crud-config
+                  key: spring.datasource.driver-class-name
+            - name: The source code of
+              valueFrom:
+                secretKeyRef:
+                  name: mysqlpwd
+                  key: password
+  selector:
+    matchLabels:
+      app: ab
