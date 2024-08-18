@@ -4,6 +4,7 @@ metadata:
   name: crud-service
 spec:
   type: ClusterIP
+  clusterIP: 10.244.0.43
   selector:
     app: crud-service
   ports:
