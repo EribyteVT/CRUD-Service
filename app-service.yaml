@@ -9,5 +9,5 @@ spec:
     name: crud-service
     type: back-end-api
   ports:
-    - targetPort: 80087
-      port: 80087
+    - targetPort: 46468
+      port: 46468
