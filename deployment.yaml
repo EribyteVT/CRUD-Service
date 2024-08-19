@@ -14,7 +14,7 @@ spec:
           image: eribyteofficial/crud-service
           imagePullPolicy: Always
           ports:
-            - containerPort: 3000
+            - containerPort: 46468
           env:
             - name: ALLOW_EMPTY_PASSWORD
               value: "yes"
