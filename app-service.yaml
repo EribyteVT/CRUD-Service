@@ -4,7 +4,7 @@ metadata:
   name: crud-service
 spec:
   type: ClusterIP
-  clusterIP: 10.96.0.10
+  clusterIP: 10.124.46.21
   selector:
     app: crud-service
   externalIPs:
