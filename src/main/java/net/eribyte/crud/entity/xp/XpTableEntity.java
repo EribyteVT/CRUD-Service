@@ -1,4 +1,4 @@
-package net.eribyte.crud.entity;
+package net.eribyte.crud.entity.xp;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

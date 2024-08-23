@@ -1,4 +1,4 @@
-package net.eribyte.crud.entity;
+package net.eribyte.crud.entity.schedule;
 
 
 import jakarta.persistence.Column;

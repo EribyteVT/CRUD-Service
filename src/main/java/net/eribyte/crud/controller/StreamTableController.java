@@ -2,12 +2,12 @@ package net.eribyte.crud.controller;
 
 
 import lombok.extern.log4j.Log4j2;
-import net.eribyte.crud.entity.StreamTableEntity;
-import net.eribyte.crud.entity.StreamTableEntityKey;
-import net.eribyte.crud.model.AddStreamTableEntryRequest;
-import net.eribyte.crud.model.DeleteStreamRequest;
-import net.eribyte.crud.model.EditStreamRequest;
-import net.eribyte.crud.repository.StreamTableRepository;
+import net.eribyte.crud.entity.schedule.StreamTableEntity;
+import net.eribyte.crud.entity.schedule.StreamTableEntityKey;
+import net.eribyte.crud.model.schedule.AddStreamTableEntryRequest;
+import net.eribyte.crud.model.schedule.DeleteStreamRequest;
+import net.eribyte.crud.model.schedule.EditStreamRequest;
+import net.eribyte.crud.repository.schedule.StreamTableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;

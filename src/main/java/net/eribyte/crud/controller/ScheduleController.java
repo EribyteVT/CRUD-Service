@@ -1,10 +1,10 @@
 package net.eribyte.crud.controller;
 
 import lombok.extern.log4j.Log4j2;
-import net.eribyte.crud.model.AddStreamRequest;
-import net.eribyte.crud.repository.ScheduleRepository;
-import net.eribyte.crud.entity.ScheduleEntity;
-import net.eribyte.crud.entity.ScheduleEntityKey;
+import net.eribyte.crud.model.old_schedule.AddStreamRequest;
+import net.eribyte.crud.repository.old_schedule.ScheduleRepository;
+import net.eribyte.crud.entity.old_schedule.ScheduleEntity;
+import net.eribyte.crud.entity.old_schedule.ScheduleEntityKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

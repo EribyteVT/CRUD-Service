@@ -1,4 +1,5 @@
-package net.eribyte.crud.model;
+package net.eribyte.crud.model.schedule;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ConnectRequest {
-    private String discordId;
-    private String serviceId;
+public class DeleteStreamRequest {
+    String timestamp;
+    String streamName;
+    String streamerId;
 
     String password;
 }

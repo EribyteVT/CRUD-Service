@@ -1,4 +1,4 @@
-package net.eribyte.crud.model;
+package net.eribyte.crud.model.old_schedule;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

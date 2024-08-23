@@ -1,4 +1,4 @@
-package net.eribyte.crud.model;
+package net.eribyte.crud.model.xp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

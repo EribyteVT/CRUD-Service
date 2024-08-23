@@ -1,5 +1,4 @@
-package net.eribyte.crud.model;
-
+package net.eribyte.crud.model.xp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddStreamTableEntryRequest {
-    String timestamp;
-    String streamName;
-    String streamerId;
+public class ConnectRequest {
+    private String discordId;
+    private String serviceId;
 
     String password;
 }
