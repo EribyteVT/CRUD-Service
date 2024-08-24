@@ -1,4 +1,4 @@
-package net.eribyte.crud.model;
+package net.eribyte.crud.model.schedule;
 
 
 import lombok.AllArgsConstructor;
@@ -8,14 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EditStreamRequest {
+public class AddStreamTableEntryRequest {
     String timestamp;
     String streamName;
     String streamerId;
 
-    String newTimestamp;
-    String newName;
-
     String password;
-
 }

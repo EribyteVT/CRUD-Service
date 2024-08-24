@@ -1,7 +1,7 @@
-package net.eribyte.crud.repository;
+package net.eribyte.crud.repository.old_schedule;
 
-import net.eribyte.crud.entity.ScheduleEntity;
-import net.eribyte.crud.entity.ScheduleEntityKey;
+import net.eribyte.crud.entity.old_schedule.ScheduleEntity;
+import net.eribyte.crud.entity.old_schedule.ScheduleEntityKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

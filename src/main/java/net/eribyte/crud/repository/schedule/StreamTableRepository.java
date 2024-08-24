@@ -1,7 +1,7 @@
-package net.eribyte.crud.repository;
+package net.eribyte.crud.repository.schedule;
 
-import net.eribyte.crud.entity.StreamTableEntity;
-import net.eribyte.crud.entity.StreamTableEntityKey;
+import net.eribyte.crud.entity.schedule.StreamTableEntity;
+import net.eribyte.crud.entity.schedule.StreamTableEntityKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.sql.Timestamp;

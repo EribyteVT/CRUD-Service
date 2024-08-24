@@ -1,12 +1,12 @@
 package net.eribyte.crud.controller;
 
 import lombok.extern.log4j.Log4j2;
-import net.eribyte.crud.entity.ConnectionTableEntity;
-import net.eribyte.crud.entity.XpTableEntity;
-import net.eribyte.crud.model.ConnectRequest;
-import net.eribyte.crud.model.UpdateRequest;
-import net.eribyte.crud.repository.ConnectionRepository;
-import net.eribyte.crud.repository.XpRepository;
+import net.eribyte.crud.entity.xp.ConnectionTableEntity;
+import net.eribyte.crud.entity.xp.XpTableEntity;
+import net.eribyte.crud.model.xp.ConnectRequest;
+import net.eribyte.crud.model.xp.UpdateRequest;
+import net.eribyte.crud.repository.xp.ConnectionRepository;
+import net.eribyte.crud.repository.xp.XpRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;

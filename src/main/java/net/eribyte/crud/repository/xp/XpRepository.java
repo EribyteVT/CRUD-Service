@@ -1,6 +1,6 @@
-package net.eribyte.crud.repository;
+package net.eribyte.crud.repository.xp;
 
-import net.eribyte.crud.entity.XpTableEntity;
+import net.eribyte.crud.entity.xp.XpTableEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface XpRepository extends JpaRepository<XpTableEntity, Integer> {

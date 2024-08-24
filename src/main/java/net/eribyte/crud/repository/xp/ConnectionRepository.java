@@ -1,6 +1,6 @@
-package net.eribyte.crud.repository;
+package net.eribyte.crud.repository.xp;
 
-import net.eribyte.crud.entity.ConnectionTableEntity;
+import net.eribyte.crud.entity.xp.ConnectionTableEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

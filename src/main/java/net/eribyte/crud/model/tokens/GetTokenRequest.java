@@ -1,4 +1,4 @@
-package net.eribyte.crud.model;
+package net.eribyte.crud.model.tokens;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeleteRequest {
-    private String id;
-    private String passcode;
+public class GetTokenRequest {
+    private Integer twitchId;
+    private String password;
+
 }
