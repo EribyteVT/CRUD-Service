@@ -52,7 +52,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: crud-secrets
-                  key: security.delete.password
+                  key: security.oauth.password
 
   selector:
     matchLabels:
