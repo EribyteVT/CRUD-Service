@@ -4,7 +4,6 @@ package net.eribyte.crud.controller;
 import lombok.extern.log4j.Log4j2;
 import net.eribyte.crud.entity.schedule.StreamerEntity;
 import net.eribyte.crud.model.schedule.AddTwitchToStreamerRequest;
-import net.eribyte.crud.model.tokens.GetTokenRequest;
 import net.eribyte.crud.repository.schedule.StreamerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
