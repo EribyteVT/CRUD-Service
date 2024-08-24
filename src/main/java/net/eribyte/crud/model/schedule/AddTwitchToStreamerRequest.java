@@ -1,4 +1,4 @@
-package net.eribyte.crud.model.tokens;
+package net.eribyte.crud.model.schedule;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetTokenRequest {
-    private Integer twitchId;
+public class AddTwitchToStreamerRequest {
+    private int streamerId;
+    private String twitchId;
     private String password;
-
 }

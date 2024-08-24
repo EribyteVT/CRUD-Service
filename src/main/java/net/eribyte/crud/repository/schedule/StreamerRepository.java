@@ -8,4 +8,6 @@ public interface StreamerRepository extends JpaRepository<StreamerEntity, Intege
 
 
     StreamerEntity findByGuildEquals(String guildId);
+
+    StreamerEntity findByStreamerIdEquals(int streamer_id);
 }

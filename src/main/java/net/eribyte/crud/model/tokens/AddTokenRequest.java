@@ -8,9 +8,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddTokenRequest {
-    private Integer streamer_id;
+    private Integer twitch_id;
     private String refresh_token;
-    private String salt;
+    private String refresh_salt;
+    private String access_token;
+    private String access_salt;
     private String password;
-
 }

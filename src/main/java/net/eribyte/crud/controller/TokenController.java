@@ -43,7 +43,7 @@ public class TokenController {
                 return null;
             }
 
-            StreamerRefreshToken streamerRefreshToken = repository.findByStreamerIdEquals(getTokenRequest.getStreamer_id());
+            StreamerRefreshToken streamerRefreshToken = repository.findByTwitchIdEquals(getTokenRequest.getTwitchId());
             log.info(streamerRefreshToken);
 
             return streamerRefreshToken;
@@ -72,14 +72,15 @@ public class TokenController {
 
             StreamerRefreshToken streamerRefreshToken = new StreamerRefreshToken();
 
-            streamerRefreshToken.setStreamerId(addTokenRequest.getStreamer_id());
+            streamerRefreshToken.setTwitchId(addTokenRequest.getTwitch_id());
             streamerRefreshToken.setRefreshToken(addTokenRequest.getRefresh_token());
-            streamerRefreshToken.setSalt(addTokenRequest.getSalt());
+            streamerRefreshToken.setRefreshSalt(addTokenRequest.getRefresh_salt());
+            streamerRefreshToken.setAccessToken(addTokenRequest.getAccess_token());
+            streamerRefreshToken.setAccessSalt(addTokenRequest.getAccess_salt());
 
             repository.save(streamerRefreshToken);
 
             return "UPDATED";
-
 
         }
         catch (Exception e){

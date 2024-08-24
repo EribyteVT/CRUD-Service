@@ -13,12 +13,18 @@ import lombok.NoArgsConstructor;
 public class StreamerRefreshToken {
 
     @Id
-    @Column(name="streamer_id")
-    private Integer streamerId;
+    @Column(name="twitch_user_id")
+    private Integer twitchId;
 
     @Column(name="refresh_token")
     private String refreshToken;
 
-    @Column(name="salt")
-    private String salt;
+    @Column(name="refresh_salt")
+    private String refreshSalt;
+
+    @Column(name="access_token")
+    private String accessToken;
+
+    @Column(name="access_salt")
+    private String accessSalt;
 }

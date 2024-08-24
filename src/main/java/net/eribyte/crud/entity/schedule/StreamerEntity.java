@@ -35,4 +35,7 @@ public class StreamerEntity {
 
     @Column(name="level_channel")
     private String levelChannel;
+
+    @Column(name="twitch_user_id")
+    private String twitchId;
 }
