@@ -48,6 +48,12 @@ spec:
                 secretKeyRef:
                   name: crud-secrets
                   key: security.delete.code
+            - name: security.oauth.password
+              valueFrom:
+                secretKeyRef:
+                  name: crud-secrets
+                  key: security.delete.password
+
   selector:
     matchLabels:
       app: crud-service
