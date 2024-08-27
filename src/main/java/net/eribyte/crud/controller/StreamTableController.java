@@ -3,8 +3,8 @@ package net.eribyte.crud.controller;
 
 import lombok.extern.log4j.Log4j2;
 import net.eribyte.crud.entity.schedule.StreamTableEntity;
-import net.eribyte.crud.entity.schedule.StreamTableEntityKey;
 import net.eribyte.crud.model.schedule.AddStreamTableEntryRequest;
+import net.eribyte.crud.model.schedule.AddOtherIdToStream;
 import net.eribyte.crud.model.schedule.DeleteStreamRequest;
 import net.eribyte.crud.model.schedule.EditStreamRequest;
 import net.eribyte.crud.repository.schedule.StreamTableRepository;
@@ -39,7 +39,7 @@ public class StreamTableController {
             Timestamp date1 = new Timestamp(weekStart);
             Timestamp date2 = new Timestamp(weekStart+oneWeek);
 
-            return repository.findByStreamTableEntityKeyStreamDateGreaterThanAndStreamTableEntityKeyStreamDateLessThanAndStreamTableEntityKeyStreamerIdEquals(date1,date2,streamerId);
+            return repository.findByStreamDateGreaterThanAndStreamDateLessThanAndStreamerIdEquals(date1,date2,streamerId);
         }
         catch (Exception e){
             return new ArrayList<>();
@@ -57,13 +57,10 @@ public class StreamTableController {
                 return "FORBIDDEN";
             }
 
-            StreamTableEntityKey newStreamKey = new StreamTableEntityKey();
-            newStreamKey.setStreamDate(new Timestamp(Long.parseLong(addStreamTableEntryRequest.getTimestamp())*1000));
-            newStreamKey.setStreamerId(addStreamTableEntryRequest.getStreamerId());
-
             StreamTableEntity newStream = new StreamTableEntity();
-            newStream.setStreamTableEntityKey(newStreamKey);
+            newStream.setStreamerId(addStreamTableEntryRequest.getStreamerId());
             newStream.setStreamName(addStreamTableEntryRequest.getStreamName());
+            newStream.setStreamDate(new Timestamp(Long.parseLong(addStreamTableEntryRequest.getTimestamp())*1000));
 
             repository.save(newStream);
 
@@ -89,30 +86,26 @@ public class StreamTableController {
                 return "FORBIDDEN";
             }
 
-            StreamTableEntityKey deleteStreamKey = new StreamTableEntityKey();
-            deleteStreamKey.setStreamDate(new Timestamp(Long.parseLong(editStreamRequest.getTimestamp())*1000));
-            deleteStreamKey.setStreamerId(editStreamRequest.getStreamerId());
-
-            StreamTableEntity deleteStreamEntity = new StreamTableEntity();
-
-            deleteStreamEntity.setStreamName(editStreamRequest.getStreamName());
-            deleteStreamEntity.setStreamTableEntityKey(deleteStreamKey);
-
-            StreamTableEntityKey newStreamKey = new StreamTableEntityKey();
-            newStreamKey.setStreamDate(new Timestamp(Long.parseLong(editStreamRequest.getNewTimestamp())*1000));
-            newStreamKey.setStreamerId(editStreamRequest.getStreamerId());
-
-            StreamTableEntity newStreamEntity = new StreamTableEntity();
-
-            newStreamEntity.setStreamName(editStreamRequest.getNewName());
-            newStreamEntity.setStreamTableEntityKey(newStreamKey);
-
-            if (repository.existsById(deleteStreamKey)) {
-                repository.deleteById(deleteStreamKey);
+            if(!repository.existsById(editStreamRequest.getStreamId())){
+                return "NOT FOUND";
             }
-            else{
-                return "OLD DATA NOT IN DB";
+
+
+            StreamTableEntity newStreamEntity = repository.findById(editStreamRequest.getStreamId()).get();
+
+            if("time".equals(editStreamRequest.getWhich())){
+                newStreamEntity.setStreamDate(new Timestamp(Long.parseLong(editStreamRequest.getNewTimestamp())*1000));
             }
+            if("name".equals(editStreamRequest.getWhich())){
+                newStreamEntity.setStreamName(editStreamRequest.getNewName());
+            }
+            if("both".equals(editStreamRequest.getWhich())){
+                newStreamEntity.setStreamName(editStreamRequest.getNewName());
+                newStreamEntity.setStreamDate(new Timestamp(Long.parseLong(editStreamRequest.getNewTimestamp())*1000));
+            }
+
+
+
             repository.save(newStreamEntity);
 
             return "UPDATED";
@@ -136,16 +129,8 @@ public class StreamTableController {
                 return "FORBIDDEN";
             }
 
-            StreamTableEntityKey newStreamKey = new StreamTableEntityKey();
-            newStreamKey.setStreamDate(new Timestamp(Long.parseLong(deleteStreamRequest.getTimestamp())*1000));
-            newStreamKey.setStreamerId(deleteStreamRequest.getStreamerId());
-
-            StreamTableEntity newStreamEntity = new StreamTableEntity();
-
-            newStreamEntity.setStreamName(deleteStreamRequest.getStreamName());
-
-            if (repository.existsById(newStreamKey)) {
-                repository.deleteById(newStreamKey);
+            if (repository.existsById(deleteStreamRequest.getStreamId())) {
+                repository.deleteById(deleteStreamRequest.getStreamId());
             }
             else{
                 return "NOT FOUND";
@@ -159,6 +144,48 @@ public class StreamTableController {
             return "ERROR";
         }
     }
+
+    @PostMapping(value = "/stream/addOtherId",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.ALL_VALUE)
+    public String editStream(@RequestBody AddOtherIdToStream addTwitchIdToStream){
+        //always send it via UTC timestamp
+        try {
+
+            if(!password.equals(addTwitchIdToStream.getPassword())){
+                log.error("INCORRECT_PASSWORD");
+                return "FORBIDDEN";
+            }
+
+            log.info(addTwitchIdToStream);
+
+            StreamTableEntity streamTableEntity = repository.findByStreamIdEquals(addTwitchIdToStream.getStreamId());
+
+            log.info(streamTableEntity);
+            if("discord".equals(addTwitchIdToStream.getServiceName())){
+                streamTableEntity.setEventId(addTwitchIdToStream.getDiscordEventId());
+            }
+
+            else if ("twitch".equals(addTwitchIdToStream.getServiceName())) {
+                streamTableEntity.setTwitchSegmentId(addTwitchIdToStream.getTwitchStreamId());
+            }
+
+            else if("both".equals(addTwitchIdToStream.getServiceName())){
+                streamTableEntity.setEventId(addTwitchIdToStream.getDiscordEventId());
+                streamTableEntity.setTwitchSegmentId(addTwitchIdToStream.getTwitchStreamId());
+            }
+
+            repository.save(streamTableEntity);
+
+            return "UPDATED";
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return "ERROR";
+        }
+    }
+
+
 
 
 }

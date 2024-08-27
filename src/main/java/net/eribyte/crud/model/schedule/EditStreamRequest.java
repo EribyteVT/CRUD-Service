@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EditStreamRequest {
-    String timestamp;
-    String streamName;
-    String streamerId;
+    Integer streamId;
+
+    String which;
 
     String newTimestamp;
     String newName;
