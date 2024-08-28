@@ -2,7 +2,9 @@ package net.eribyte.crud.controller;
 
 
 import lombok.extern.log4j.Log4j2;
+import net.eribyte.crud.Constants.ResponseConstants;
 import net.eribyte.crud.entity.schedule.StreamTableEntity;
+import net.eribyte.crud.model.CrudResponseEntity;
 import net.eribyte.crud.model.schedule.AddStreamTableEntryRequest;
 import net.eribyte.crud.model.schedule.AddOtherIdToStream;
 import net.eribyte.crud.model.schedule.DeleteStreamRequest;
@@ -15,7 +17,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,7 +32,7 @@ public class StreamTableController {
     StreamTableRepository repository;
 
     @GetMapping("/getStreams/{streamerId}/{dateStart}")
-    public List<StreamTableEntity> getStreams(@PathVariable("streamerId") String streamerId, @PathVariable("dateStart") Long weekStart){
+    public CrudResponseEntity getStreams(@PathVariable("streamerId") String streamerId, @PathVariable("dateStart") Long weekStart){
         //always send it via UTC timestamp
         try {
             long oneWeek = 604800000;
@@ -39,22 +40,32 @@ public class StreamTableController {
             Timestamp date1 = new Timestamp(weekStart);
             Timestamp date2 = new Timestamp(weekStart+oneWeek);
 
-            return repository.findByStreamDateGreaterThanAndStreamDateLessThanAndStreamerIdEquals(date1,date2,streamerId);
+            List<StreamTableEntity> streams = repository.findByStreamDateGreaterThanAndStreamDateLessThanAndStreamerIdEquals(date1,date2,streamerId);
+
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.OKAY_RESPONSE);
+            response.setData(streams);
+
+            return response;
         }
         catch (Exception e){
-            return new ArrayList<>();
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.ERROR_RESPONSE);
+            return response;
         }
     }
 
     @PostMapping(value = "/AddStreamTable",
             consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.ALL_VALUE)
-    public String addStream(@RequestBody AddStreamTableEntryRequest addStreamTableEntryRequest){
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public CrudResponseEntity addStream(@RequestBody AddStreamTableEntryRequest addStreamTableEntryRequest){
         //always send it via UTC timestamp
         try {
             if(!password.equals(addStreamTableEntryRequest.getPassword())){
                 log.error("INCORRECT_PASSWORD");
-                return "FORBIDDEN";
+                CrudResponseEntity response = new CrudResponseEntity();
+                response.setResponse(ResponseConstants.FORBIDDEN_RESPONSE);
+                return response;
             }
 
             StreamTableEntity newStream = new StreamTableEntity();
@@ -62,32 +73,42 @@ public class StreamTableController {
             newStream.setStreamName(addStreamTableEntryRequest.getStreamName());
             newStream.setStreamDate(new Timestamp(Long.parseLong(addStreamTableEntryRequest.getTimestamp())*1000));
 
-            repository.save(newStream);
 
-            return "True";
+            StreamTableEntity streamTableEntity = repository.save(newStream);
+
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.OKAY_RESPONSE);
+            response.setData(streamTableEntity);
+
+            return response;
 
 
         }
         catch (Exception e){
             e.printStackTrace();
-            return "False";
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.ERROR_RESPONSE);
+            return response;
         }
     }
 
     @PostMapping(value = "/editStream",
             consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.ALL_VALUE)
-    public String editStream(@RequestBody EditStreamRequest editStreamRequest){
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public CrudResponseEntity editStream(@RequestBody EditStreamRequest editStreamRequest){
         //always send it via UTC timestamp
         try {
 
             if(!password.equals(editStreamRequest.getPassword())){
-                log.error("INCORRECT_PASSWORD");
-                return "FORBIDDEN";
+                CrudResponseEntity response = new CrudResponseEntity();
+                response.setResponse(ResponseConstants.FORBIDDEN_RESPONSE);
+                return response;
             }
 
             if(!repository.existsById(editStreamRequest.getStreamId())){
-                return "NOT FOUND";
+                CrudResponseEntity response = new CrudResponseEntity();
+                response.setResponse(ResponseConstants.NOT_FOUND_RESPONSE);
+                return response;
             }
 
 
@@ -106,55 +127,70 @@ public class StreamTableController {
 
 
 
-            repository.save(newStreamEntity);
+            StreamTableEntity streamTableEntity = repository.save(newStreamEntity);
 
-            return "UPDATED";
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.OKAY_RESPONSE);
+            response.setData(streamTableEntity);
+
+            return response;
 
         }
         catch (Exception e){
             e.printStackTrace();
-            return "ERROR";
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.ERROR_RESPONSE);
+            return response;
         }
     }
 
     @PostMapping(value = "/deleteStream",
             consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.ALL_VALUE)
-    public String deleteStream(@RequestBody DeleteStreamRequest deleteStreamRequest){
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public CrudResponseEntity deleteStream(@RequestBody DeleteStreamRequest deleteStreamRequest){
         //always send it via UTC timestamp
         try {
 
             if(!password.equals(deleteStreamRequest.getPassword())){
-                log.error("INCORRECT_PASSWORD");
-                return "FORBIDDEN";
+                CrudResponseEntity response = new CrudResponseEntity();
+                response.setResponse(ResponseConstants.FORBIDDEN_RESPONSE);
+                return response;
             }
 
             if (repository.existsById(deleteStreamRequest.getStreamId())) {
                 repository.deleteById(deleteStreamRequest.getStreamId());
             }
             else{
-                return "NOT FOUND";
+                CrudResponseEntity response = new CrudResponseEntity();
+                response.setResponse(ResponseConstants.NOT_FOUND_RESPONSE);
+                return response;
             }
 
-            return "DELETED";
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.OKAY_RESPONSE);
+
+            return response;
 
         }
         catch (Exception e){
             e.printStackTrace();
-            return "ERROR";
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.ERROR_RESPONSE);
+            return response;
         }
     }
 
     @PostMapping(value = "/stream/addOtherId",
             consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.ALL_VALUE)
-    public String editStream(@RequestBody AddOtherIdToStream addTwitchIdToStream){
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public CrudResponseEntity editStream(@RequestBody AddOtherIdToStream addTwitchIdToStream){
         //always send it via UTC timestamp
         try {
 
             if(!password.equals(addTwitchIdToStream.getPassword())){
-                log.error("INCORRECT_PASSWORD");
-                return "FORBIDDEN";
+                CrudResponseEntity response = new CrudResponseEntity();
+                response.setResponse(ResponseConstants.FORBIDDEN_RESPONSE);
+                return response;
             }
 
             log.info(addTwitchIdToStream);
@@ -175,13 +211,19 @@ public class StreamTableController {
                 streamTableEntity.setTwitchSegmentId(addTwitchIdToStream.getTwitchStreamId());
             }
 
-            repository.save(streamTableEntity);
+            StreamTableEntity savedEntity = repository.save(streamTableEntity);
 
-            return "UPDATED";
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.OKAY_RESPONSE);
+            response.setData(savedEntity);
+
+            return response;
         }
         catch (Exception e){
             e.printStackTrace();
-            return "ERROR";
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.ERROR_RESPONSE);
+            return response;
         }
     }
 
