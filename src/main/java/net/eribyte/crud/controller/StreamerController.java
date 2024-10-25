@@ -2,7 +2,9 @@ package net.eribyte.crud.controller;
 
 
 import lombok.extern.log4j.Log4j2;
+import net.eribyte.crud.Constants.ResponseConstants;
 import net.eribyte.crud.entity.schedule.StreamerEntity;
+import net.eribyte.crud.model.CrudResponseEntity;
 import net.eribyte.crud.model.schedule.AddTwitchToStreamerRequest;
 import net.eribyte.crud.repository.schedule.StreamerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,34 +25,47 @@ public class StreamerController {
     private String password;
 
     @GetMapping("/getStreamer/{guild}")
-    public StreamerEntity getStreamerByGuild(@PathVariable("guild") String guild){
+    public CrudResponseEntity getStreamerByGuild(@PathVariable("guild") String guild){
         //always send it via UTC timestamp
         try {
-            return repository.findByGuildEquals(guild);
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setData(repository.findByGuildEquals(guild));
+            response.setResponse(ResponseConstants.OKAY_RESPONSE);
+            return response;
         }
         catch (Exception e){
-            return null;
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.ERROR_RESPONSE);
+            return response;
         }
     }
 
     @PostMapping(value = "/streamer/addTwitch",
             consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.ALL_VALUE)
-    public String addTwitchToStreamer(@RequestBody AddTwitchToStreamerRequest addTwitchToStreamerRequest){
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public CrudResponseEntity addTwitchToStreamer(@RequestBody AddTwitchToStreamerRequest addTwitchToStreamerRequest){
 
         if(!password.equals(addTwitchToStreamerRequest.getPassword())){
-            log.error("INCORRECT_PASSWORD");
-            return "FORBIDDEN";
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.FORBIDDEN_RESPONSE);
+            return response;
         }
         //always send it via UTC timestamp
         try {
+
             StreamerEntity streamer = repository.findByStreamerIdEquals(addTwitchToStreamerRequest.getStreamerId());
             streamer.setTwitchId(addTwitchToStreamerRequest.getTwitchId());
-            repository.save(streamer);
-            return "UPDATED";
+            StreamerEntity streamer_returned = repository.save(streamer);
+
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.OKAY_RESPONSE);
+            response.setData(streamer_returned);
+            return response;
         }
         catch (Exception e){
-            return "ERROR";
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.ERROR_RESPONSE);
+            return response;
         }
     }
 }

@@ -2,7 +2,9 @@ package net.eribyte.crud.controller;
 
 
 import lombok.extern.log4j.Log4j2;
+import net.eribyte.crud.Constants.ResponseConstants;
 import net.eribyte.crud.entity.tokens.StreamerRefreshToken;
+import net.eribyte.crud.model.CrudResponseEntity;
 import net.eribyte.crud.model.tokens.AddTokenRequest;
 import net.eribyte.crud.model.tokens.GetTokenRequest;
 import net.eribyte.crud.repository.tokens.TokenRepository;
@@ -31,39 +33,44 @@ public class TokenController {
     @PostMapping(value = "/token/getToken",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public StreamerRefreshToken getToken(@RequestBody GetTokenRequest getTokenRequest){
+    public CrudResponseEntity getToken(@RequestBody GetTokenRequest getTokenRequest){
         //always send it via UTC timestamp
         try {
             if(!getPassword.equals(getTokenRequest.getPassword())){
-                log.error("INCORRECT_PASSWORD");
-                return null;
+                CrudResponseEntity response = new CrudResponseEntity();
+                response.setResponse(ResponseConstants.FORBIDDEN_RESPONSE);
+                return response;
             }
 
             StreamerRefreshToken streamerRefreshToken = repository.findByTwitchIdEquals(getTokenRequest.getTwitchId());
-            log.info(streamerRefreshToken);
+            CrudResponseEntity response = new CrudResponseEntity();
 
-            return streamerRefreshToken;
+            response.setResponse(ResponseConstants.OKAY_RESPONSE);
+            response.setData(streamerRefreshToken);
+
+            return response;
 
 
         }
         catch (Exception e){
-
-
             e.printStackTrace();
-            return null;
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.ERROR_RESPONSE);
+            return response;
         }
     }
 
 
     @PostMapping(value = "/token/updateToken",
             consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.ALL_VALUE)
-    public String updateToken(@RequestBody AddTokenRequest addTokenRequest){
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public CrudResponseEntity updateToken(@RequestBody AddTokenRequest addTokenRequest){
         //always send it via UTC timestamp
         try {
             if(!updatePassword.equals(addTokenRequest.getPassword())){
-                log.error("INCORRECT_PASSWORD");
-                return "FORBIDDEN";
+                CrudResponseEntity response = new CrudResponseEntity();
+                response.setResponse(ResponseConstants.FORBIDDEN_RESPONSE);
+                return response;
             }
 
             StreamerRefreshToken streamerRefreshToken = new StreamerRefreshToken();
@@ -74,14 +81,20 @@ public class TokenController {
             streamerRefreshToken.setAccessToken(addTokenRequest.getAccess_token());
             streamerRefreshToken.setAccessSalt(addTokenRequest.getAccess_salt());
 
-            repository.save(streamerRefreshToken);
+            StreamerRefreshToken updatedToken = repository.save(streamerRefreshToken);
 
-            return "UPDATED";
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.OKAY_RESPONSE);
+            response.setData(updatedToken);
+
+            return response;
 
         }
         catch (Exception e){
             e.printStackTrace();
-            return "ERROR";
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.ERROR_RESPONSE);
+            return response;
         }
     }
 
