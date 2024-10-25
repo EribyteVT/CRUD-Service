@@ -53,10 +53,12 @@ pipeline {
                         echo "value: $envVars" 
                         templateMap.put(envVars.env, envVars.templateParams)
                     }
+
                     String k8sObjectFile = readFile("./deployment.yaml")
                     
 
                     echo environ
+                    
                     for(def key in templateMap.get(environ).keySet()){
                         def value = String.valueOf(templateMap.get(selectedEnv).get(key))
                         k8sObjectFile = k8sObjectFile.replaceAll(/\$key\}/ ,value)
