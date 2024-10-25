@@ -23,34 +23,6 @@ pipeline {
             }
         }
 
-        stage("Env Selection"){
-            steps {
-                script {
-
-                    echo "Choose where to deploy"
-
-                    timeout(time: 5, unit: "MINUTES"){
-
-                        def envList = envConfigJson.envs
-
-                        String envString = envList.toString()
-
-                        echo envString
-
-                        selectedEnvs = input message: "SELECT ENV",
-                          parameters: [activeChoice(choiceType: "PT_MULTI_SELECT", filterLength: 1, filterable: false, name: 'environ',
-                          randomName: 'choice-8645321441664513',
-                          script: groovyScript(script: 'return ["stage","prod"]'))
-                          ]
-
-
-
-
-                    }
-                }
-            }
-        }
-
         stage('Build') {
             steps {
                 sh '/opt/apache-maven-3.9.9/bin/mvn -B -DskipTests clean package'
@@ -77,7 +49,10 @@ pipeline {
             steps {
                 script{
                     String k8sObjectFile = readFile("./deployment.yaml")
+                    echo environ
                 }
+
+
 
 
                 withCredentials([string(credentialsId: 'CA_CERTIFICATE', variable: 'cert'),
