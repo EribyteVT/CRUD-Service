@@ -58,9 +58,9 @@ pipeline {
                     
 
                     echo environ
-                    
+
                     for(def key in templateMap.get(environ).keySet()){
-                        def value = String.valueOf(templateMap.get(selectedEnv).get(key))
+                        def value = String.valueOf(templateMap.get(environ).get(key))
                         k8sObjectFile = k8sObjectFile.replaceAll(/\$key\}/ ,value)
                     }
 
