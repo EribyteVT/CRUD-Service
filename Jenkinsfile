@@ -68,7 +68,9 @@ pipeline {
         }
         stage('DeployToProduction') {
             steps {
-                String k8sObjectFile = readFile("./deployment.yaml")
+                script{
+                    String k8sObjectFile = readFile("./deployment.yaml")
+                }
 
 
                 withCredentials([string(credentialsId: 'CA_CERTIFICATE', variable: 'cert'),
