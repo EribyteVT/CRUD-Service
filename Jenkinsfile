@@ -37,7 +37,7 @@ pipeline {
 
                         selectedEnvs = input message: "SELECT ENV",
                           parameters: [activeChoice(choiceType: "PT_MULTI_SELECT", filterLength: 1, filterable: false, name: 'environ',
-                          randomName: CHOICE-8645321441664513,
+                          randomName: choice-8645321441664513,
                           script: groovyScript("return " + envString))
                           ]
 
