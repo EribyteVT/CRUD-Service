@@ -48,7 +48,14 @@ pipeline {
         stage('DeployToProduction') {
             steps {
                 script{
+
+                    for (envVars in envConfigJson.configs){
+                        echo "value: $envVars" 
+                        templateMap.put(envVars.env, envVars.templateParams)
+                    }
                     String k8sObjectFile = readFile("./deployment.yaml")
+                    
+
                     echo environ
                     for(def key in templateMap.get(environ).keySet()){
                         def value = String.valueOf(templateMap.get(selectedEnv).get(key))
