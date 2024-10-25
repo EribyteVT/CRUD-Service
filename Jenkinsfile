@@ -35,10 +35,12 @@ pipeline {
 
                         String envString = envList.toString().replaceAll(",","\",\"").replaceAll("\\[","\\[\"").replaceAll("\\]","\"\\]")
 
+                        echo envString
+
                         selectedEnvs = input message: "SELECT ENV",
                           parameters: [activeChoice(choiceType: "PT_MULTI_SELECT", filterLength: 1, filterable: false, name: 'environ',
                           randomName: 'choice-8645321441664513',
-                          script: groovyScript(script: "return " + envString))
+                          script: groovyScript(script: [script: "return " + envString]))
                           ]
 
 
