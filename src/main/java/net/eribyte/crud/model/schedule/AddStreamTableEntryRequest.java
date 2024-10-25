@@ -13,5 +13,7 @@ public class AddStreamTableEntryRequest {
     String streamName;
     String streamerId;
 
+    Integer duration;
+
     String password;
 }

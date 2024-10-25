@@ -72,6 +72,7 @@ public class StreamTableController {
             newStream.setStreamerId(addStreamTableEntryRequest.getStreamerId());
             newStream.setStreamName(addStreamTableEntryRequest.getStreamName());
             newStream.setStreamDate(new Timestamp(Long.parseLong(addStreamTableEntryRequest.getTimestamp())*1000));
+            newStream.setDuration(addStreamTableEntryRequest.getDuration());
 
 
             StreamTableEntity streamTableEntity = repository.save(newStream);
@@ -111,18 +112,18 @@ public class StreamTableController {
                 return response;
             }
 
+            List<String> whichList = editStreamRequest.getWhich();
 
             StreamTableEntity newStreamEntity = repository.findById(editStreamRequest.getStreamId()).get();
 
-            if("time".equals(editStreamRequest.getWhich())){
+            if(whichList.contains("time")){
                 newStreamEntity.setStreamDate(new Timestamp(Long.parseLong(editStreamRequest.getNewTimestamp())*1000));
             }
-            if("name".equals(editStreamRequest.getWhich())){
+            if(whichList.contains("name")){
                 newStreamEntity.setStreamName(editStreamRequest.getNewName());
             }
-            if("both".equals(editStreamRequest.getWhich())){
-                newStreamEntity.setStreamName(editStreamRequest.getNewName());
-                newStreamEntity.setStreamDate(new Timestamp(Long.parseLong(editStreamRequest.getNewTimestamp())*1000));
+            if(whichList.contains("duration")) {
+                newStreamEntity.setDuration(editStreamRequest.getNewDuration());
             }
 
 
