@@ -54,15 +54,18 @@ pipeline {
                         templateMap.put(envVars.env, envVars.templateParams)
                     }
 
-                    String k8sObjectFile = readFile("./deployment.yaml")
+                    
                     
 
                     echo environ
 
+                    String k8sObjectFile = readFile("./deployment.yaml")
                     for(def key in templateMap.get(environ).keySet()){
                         def value = String.valueOf(templateMap.get(environ).get(key))
                         k8sObjectFile = k8sObjectFile.replaceAll(/\$\{key\}/ ,value)
                     }
+
+                    echo "$k8sObjectFile"
 
                     writeFile file:'./k8s_generated.yaml', text: k8sObjectFile
                 }
