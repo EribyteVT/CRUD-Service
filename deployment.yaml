@@ -18,40 +18,45 @@ spec:
           env:
             - name: ALLOW_EMPTY_PASSWORD
               value: "yes"
+            - name: schema
+              valueFrom:
+                configMapKeyRef:
+                  name: ${CONFIG_NAME}
+                  key: schema
             - name: spring.datasource.driver-class-name
               valueFrom:
                 configMapKeyRef:
-                  name: crud-config
+                  name: ${CONFIG_NAME}
                   key: spring.datasource.driver-class-name
             - name: spring.datasource.url
               valueFrom:
                 configMapKeyRef:
-                  name: crud-config
+                  name: ${CONFIG_NAME}
                   key: spring.datasource.url
             - name: spring.jpa.database-platform
               valueFrom:
                 configMapKeyRef:
-                  name: crud-config
+                  name: ${CONFIG_NAME}
                   key: spring.jpa.database-platform
             - name: spring.datasource.username
               valueFrom:
                 configMapKeyRef:
-                  name: crud-config
+                  name: ${CONFIG_NAME}
                   key: spring.datasource.username
             - name: spring.datasource.password
               valueFrom:
                 secretKeyRef:
-                  name: crud-secrets
+                  name: ${SECRET_NAME}
                   key: spring.datasource.password
             - name: security.delete.code
               valueFrom:
                 secretKeyRef:
-                  name: crud-secrets
+                  name: ${SECRET_NAME}
                   key: security.delete.code
             - name: security.oauth.password
               valueFrom:
                 secretKeyRef:
-                  name: crud-secrets
+                  name: ${SECRET_NAME}
                   key: security.oauth.password
 
   selector:

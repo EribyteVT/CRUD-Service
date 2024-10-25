@@ -9,9 +9,41 @@ pipeline {
     stages {
         stage("Checkout from github repo"){
             steps{
-            git  branch: "${params.BRANCH}", url: 'https://github.com/EribyteVT/CRUD-Service.git'
+                git  branch: "${params.BRANCH}", url: 'https://github.com/EribyteVT/CRUD-Service.git'
+
+                script{
+                    envConfigJson = readJSON file: "deployEnvs.json"
+
+                }
             }
         }
+
+        stage("Env Selection"){
+            steps {
+                script {
+
+                    echo "Choose where to deploy"
+
+                    timeout(time: 5, unit: "MINUTES"){
+
+                        def envList = envConfigJson.envs
+
+                        String envString = envList.tostring().replaceAll(",","\",\"").replaceAll("\\[","\\[\").replaceAll("\\]","\"\\]")
+
+                        selectedEnvs = input message: "SELECT ENV",
+                          parameters: [activeChoice(choiceType: "PT_MULTI_SELECT", filterLength: 1, filterable: false, name: 'environ',
+                          randomName: CHOICE-8645321441664513,
+                          script: groovyScript("return " + envString))
+                          ]
+
+
+
+
+                    }
+                }
+            }
+        }
+
         stage('Build') {
             steps {
                 sh '/opt/apache-maven-3.9.9/bin/mvn -B -DskipTests clean package'
@@ -36,6 +68,9 @@ pipeline {
         }
         stage('DeployToProduction') {
             steps {
+                String k8sObjectFile = readFile("./deployment.yaml")
+
+
                 withCredentials([string(credentialsId: 'CA_CERTIFICATE', variable: 'cert'),
                                  string(credentialsId: 'Kuubernetes_creds_id', variable: 'cred'),
                                  string(credentialsId: 'kubernetes_server_url', variable: 'url')]) {

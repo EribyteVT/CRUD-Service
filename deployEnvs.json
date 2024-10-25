@@ -1,0 +1,18 @@
+{
+  "envs": [
+    "stage",
+    "prod"
+  ],
+  "configs": [
+    {
+      "env": "stage",
+      "templateParams": {
+        "APPLICATION_NAME": "crud-service",
+        "DB_HOST":"dev.oracledb.host",
+        "SECRET_NAME": "crud-secrets-stage",
+        "CONFIG_NAME": "crud-config-stage"
+      }
+    }
+
+  ]
+}
