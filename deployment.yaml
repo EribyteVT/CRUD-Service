@@ -69,7 +69,7 @@ metadata:
   name: ${APPLICATION_NAME}
 spec:
   type: ClusterIP
-  clusterIP: 10.96.46.21
+  clusterIP: ${ip}
   selector:
     app: ${APPLICATION_NAME}
   externalIPs:

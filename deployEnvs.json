@@ -10,7 +10,8 @@
         "APPLICATION_NAME": "crud-service-stage",
         "DB_HOST":"dev.oracledb.host",
         "SECRET_NAME": "crud-secrets-stage",
-        "CONFIG_NAME": "crud-config-stage"
+        "CONFIG_NAME": "crud-config-stage",
+        "ip": "10.96.46.22"
       }
     }
 
