@@ -33,7 +33,7 @@ pipeline {
 
                         def envList = envConfigJson.envs
 
-                        String envString = envList.toString().replaceAll(",","\",\"").replaceAll("\\[","\\[\"").replaceAll("\\]","\"\\]")
+                        String envString = envList.toString()
 
                         echo envString
 
