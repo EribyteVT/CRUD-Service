@@ -50,6 +50,12 @@ pipeline {
                 script{
                     String k8sObjectFile = readFile("./deployment.yaml")
                     echo environ
+                    for(def key in templateMap.get(environ).keySet()){
+                        def value = String.valueOf(templateMap.get(selectedEnv).get(key))
+                        k8sObjectFile = k8sObjectFile.replaceAll(/\$key\}/ ,value)
+                    }
+
+                    writeFile file:'./k8s_generated.yaml', text: k8sObjectFile
                 }
 
 
@@ -60,7 +66,7 @@ pipeline {
                                  string(credentialsId: 'kubernetes_server_url', variable: 'url')]) {
 
                     kubeconfig(caCertificate: "${cert}", credentialsId: "${cred}", serverUrl: "${url}"){
-                        sh 'kubectl apply -f deployment.yaml'
+                        sh 'kubectl apply -f k8s_generated.yaml'
                         sh 'kubectl apply -f app-service.yaml'
                         sh 'kubectl rollout restart deployment crud-service'
                     }
