@@ -1,3 +1,8 @@
+
+def selectedEnv = ''
+def templateMap = [:]
+def selectedEnvs = ''
+
 pipeline {
     agent any
     parameters {
@@ -28,7 +33,7 @@ pipeline {
 
                         def envList = envConfigJson.envs
 
-                        String envString = envList.tostring().replaceAll(",","\",\"").replaceAll("\\[","\\[\"").replaceAll("\\]","\"\\]")
+                        String envString = envList.toString().replaceAll(",","\",\"").replaceAll("\\[","\\[\"").replaceAll("\\]","\"\\]")
 
                         selectedEnvs = input message: "SELECT ENV",
                           parameters: [activeChoice(choiceType: "PT_MULTI_SELECT", filterLength: 1, filterable: false, name: 'environ',
