@@ -7,7 +7,7 @@
     {
       "env": "stage",
       "templateParams": {
-        "APPLICATION_NAME": "crud-service",
+        "APPLICATION_NAME": "crud-service-stage",
         "DB_HOST":"dev.oracledb.host",
         "SECRET_NAME": "crud-secrets-stage",
         "CONFIG_NAME": "crud-config-stage"

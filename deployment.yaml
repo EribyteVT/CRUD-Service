@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: crud-service
+  name: ${APPLICATION_NAME}
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: crud-service
+        app: ${APPLICATION_NAME}
     spec:
       containers:
-        - name: crud-service
+        - name: ${APPLICATION_NAME}
           image: eribyteofficial/crud-service
           imagePullPolicy: Always
           ports:
@@ -61,4 +61,19 @@ spec:
 
   selector:
     matchLabels:
-      app: crud-service
+      app: ${APPLICATION_NAME}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${APPLICATION_NAME}
+spec:
+  type: ClusterIP
+  clusterIP: 10.96.46.21
+  selector:
+    app: ${APPLICATION_NAME}
+  externalIPs:
+    - 10.111.131.62
+  ports:
+    - targetPort: 46468
+      port: 46468
