@@ -73,7 +73,7 @@ spec:
   selector:
     app: ${APPLICATION_NAME}
   externalIPs:
-    - 10.111.131.62
+    - ${external-ip}
   ports:
     - targetPort: 46468
       port: 46468

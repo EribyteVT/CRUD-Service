@@ -28,6 +28,7 @@ pipeline {
                 sh '/opt/apache-maven-3.9.9/bin/mvn -B -DskipTests clean package'
             }
         }
+        
         stage('Build Docker Image') {
             steps {
                 script {
@@ -53,9 +54,6 @@ pipeline {
                         echo "value: $envVars" 
                         templateMap.put(envVars.env, envVars.templateParams)
                     }
-
-                    
-                    
 
                     echo environ
 
