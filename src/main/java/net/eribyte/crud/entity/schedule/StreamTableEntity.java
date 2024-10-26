@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="stream_table_tied")
+@Table(schema="schedules", name="stream_table_tied")
 public class StreamTableEntity {
 
     @Id

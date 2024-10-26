@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="streamer_refresh_tokens")
+@Table(schema="schedules", name="streamer_refresh_tokens")
 public class StreamerRefreshToken {
 
     @Id

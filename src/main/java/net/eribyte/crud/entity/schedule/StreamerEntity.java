@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="streamer_lookup")
+@Table(schema="schedules", name="streamer_lookup")
 public class StreamerEntity {
 
     @Id
