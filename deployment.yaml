@@ -18,7 +18,7 @@ spec:
           env:
             - name: ALLOW_EMPTY_PASSWORD
               value: "yes"
-            - name: schema
+            - name: hibernate.default_schema
               valueFrom:
                 configMapKeyRef:
                   name: ${CONFIG_NAME}
