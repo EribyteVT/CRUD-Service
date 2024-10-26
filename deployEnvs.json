@@ -8,11 +8,21 @@
       "env": "stage",
       "templateParams": {
         "APPLICATION_NAME": "crud-service-stage",
-        "DB_HOST":"dev.oracledb.host",
         "SECRET_NAME": "crud-secrets-stage",
         "CONFIG_NAME": "crud-config-stage",
         "ip": "10.96.46.22",
         "external-ip": "10.111.131.63"
+      }
+    },
+
+    {
+      "env": "prod",
+      "templateParams": {
+        "APPLICATION_NAME": "crud-service-prod",
+        "SECRET_NAME": "crud-secrets-prod",
+        "CONFIG_NAME": "crud-config-prod",
+        "ip": "10.96.46.21",
+        "external-ip": "10.111.131.62"
       }
     }
 
