@@ -31,6 +31,7 @@ public class StreamerController {
             CrudResponseEntity response = new CrudResponseEntity();
             response.setData(repository.findByGuildEquals(guild));
             response.setResponse(ResponseConstants.OKAY_RESPONSE);
+            log.info(response);
             return response;
         }
         catch (Exception e){
