@@ -31,6 +31,35 @@ public class StreamTableController {
     @Autowired
     StreamTableRepository repository;
 
+    @GetMapping("/getWeek/{streamerId}")
+    public CrudResponseEntity getWeek(@PathVariable("streamerId") String streamerId){
+        //always send it via UTC timestamp
+        try {
+            // one hour of buffer time, just in case
+            long bufferTime = 360000;
+
+            //pad both of these, just in case
+            long weekStart = System.currentTimeMillis() - bufferTime;
+            long oneWeek = 604800000+ bufferTime;
+
+            Timestamp date1 = new Timestamp(weekStart);
+            Timestamp date2 = new Timestamp(weekStart+oneWeek);
+
+            List<StreamTableEntity> streams = repository.findByStreamDateGreaterThanAndStreamDateLessThanAndStreamerIdEquals(date1,date2,streamerId);
+
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.OKAY_RESPONSE);
+            response.setData(streams);
+
+            return response;
+        }
+        catch (Exception e){
+            CrudResponseEntity response = new CrudResponseEntity();
+            response.setResponse(ResponseConstants.ERROR_RESPONSE);
+            return response;
+        }
+    }
+
     @GetMapping("/getStreams/{streamerId}/{dateStart}")
     public CrudResponseEntity getStreams(@PathVariable("streamerId") String streamerId, @PathVariable("dateStart") Long weekStart){
         //always send it via UTC timestamp
