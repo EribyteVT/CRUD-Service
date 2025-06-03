@@ -58,7 +58,7 @@ spec:
                 secretKeyRef:
                   name: ${SECRET_NAME}
                   key: security.oauth.password
-          # Health check configuration (optional but recommended)
+          # Health check configuration
           livenessProbe:
             httpGet:
               path: /actuator/health
@@ -75,7 +75,7 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
-          # Resource limits (recommended for production)
+          # Resource limits
           resources:
             requests:
               memory: "512Mi"
@@ -88,10 +88,33 @@ spec:
     matchLabels:
       app: ${APPLICATION_NAME}
 ---
+# Internal ClusterIP Service for Eribot to access CRUD service
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${APPLICATION_NAME}-internal
+  labels:
+    app: ${APPLICATION_NAME}
+    service-type: internal
+spec:
+  type: ClusterIP
+  selector:
+    app: ${APPLICATION_NAME}
+  ports:
+    - name: http
+      protocol: TCP
+      port: 46468
+      targetPort: 46468
+---
+# External LoadBalancer Service for outside access
 apiVersion: v1
 kind: Service
 metadata:
   name: ${APPLICATION_NAME}
+  labels:
+    app: ${APPLICATION_NAME}
+    service-type: external
+  annotations:
 spec:
   type: LoadBalancer
   selector:
