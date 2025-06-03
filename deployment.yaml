@@ -58,6 +58,31 @@ spec:
                 secretKeyRef:
                   name: ${SECRET_NAME}
                   key: security.oauth.password
+          # Health check configuration (optional but recommended)
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 46468
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 46468
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          # Resource limits (recommended for production)
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
 
   selector:
     matchLabels:
@@ -68,12 +93,11 @@ kind: Service
 metadata:
   name: ${APPLICATION_NAME}
 spec:
-  type: ClusterIP
-  clusterIP: ${ip}
+  type: LoadBalancer
   selector:
     app: ${APPLICATION_NAME}
-  externalIPs:
-    - ${external-ip}
   ports:
-    - targetPort: 46468
+    - name: http
+      protocol: TCP
       port: 46468
+      targetPort: 46468
