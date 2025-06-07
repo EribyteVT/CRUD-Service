@@ -117,7 +117,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
     
     # SSL Certificate from ACM
-    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:us-east-2:364652779695:certificate/2c54b82b-61d4-4352-9ade-6b4024e69fad"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:us-east-2:364652779695:certificate/48c75afe-e19e-449b-a19e-107dea1cb41a"
     
     # SSL Configuration
     service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
