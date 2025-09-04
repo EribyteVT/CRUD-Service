@@ -27,8 +27,8 @@ on:
 
 env:
   DOCKER_IMAGE_NAME: "eribyteofficial/crud-service"
-  EKS_CLUSTER_NAME: "Eribot-prod"
-  AWS_REGION: "us-east-2"
+  EKS_CLUSTER_NAME: "Eribot-int-system"
+  AWS_REGION: "us-east-1"
 
 jobs:
   setup:
